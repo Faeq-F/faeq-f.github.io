@@ -1,0 +1,361 @@
+---
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<Layout>
+  <div
+    x-data="{ year: '2023' }"
+    x-init="$watch('year', value => {if (value == '2022') $('#SiteFrame').contents().find('#codeContainer').remove();})">
+    <iframe
+      id="SiteFrame"
+      x-bind:src="'https://faeq-f.github.io/PersonalSite' + year"
+      class="min-h-screen max-h-screen w-screen min-w-screen max-w-screen"
+    ></iframe>
+
+    <div
+      x-data="{
+        slideOverOpen: false
+    }"
+      class="absolute bottom-0 z-50 w-auto h-auto">
+      <button
+        @click="slideOverOpen = !slideOverOpen"
+        class="bg-white border rounded-lg shadow-sm p-1 pr-2 relative ml-4 rounded-b-none">
+        <svg
+          :class="slideOverOpen ? 'class=w-5 h-5 text-gray-400/70 rotate-90 inline transition-all transform delay-75' : '-rotate-90 inline transition-all transform w-5 h-5 text-gray-400/70 delay-1000'"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          ><g
+            fill="none"
+            stroke="none"
+            ><path
+              d="M10 8.013l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path></g
+          ></svg
+        >
+        Archive
+      </button>
+
+      <template x-teleport="body">
+        <div
+          x-show="slideOverOpen"
+          @keydown.window.escape="slideOverOpen=false"
+          class="relative z-[99]">
+          <div
+            x-show="slideOverOpen"
+            x-transition.opacity.duration.600ms
+            @click="slideOverOpen = false"
+            class="fixed inset-0 bg-black bg-opacity-10">
+          </div>
+          <div class="fixed inset-0 overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden">
+              <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div
+                  x-show="slideOverOpen"
+                  @click.away="slideOverOpen = false"
+                  x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700 delay-300"
+                  x-transition:enter-start="translate-y-full"
+                  x-transition:enter-end="translate-y-0"
+                  x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                  x-transition:leave-start="translate-y-0"
+                  x-transition:leave-end="translate-y-full"
+                  class="w-screen absolute bottom-0 right-0">
+                  <div
+                    class="flex flex-col h-[20.5rem] py-5 bg-white border-l shadow-lg border-neutral-100/70 rounded-md m-4 my-0 overflow-y-hidden rounded-b-none">
+                    <div class="px-4 sm:px-5">
+                      <div class="flex items-start justify-between pb-1">
+                        <div class="flex items-center h-auto ml-3">
+                          <h2
+                            class="text-base font-semibold leading-6 text-gray-900"
+                            id="slide-over-title">
+                            The Archive
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="relative flex-1 px-4 mt-1 sm:px-5">
+                      <div class="absolute inset-0 px-4 sm:px-5">
+                        <div
+                          class="relative p-4 h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md border-neutral-300">
+                          <ol class="sm:flex h-full">
+                            <li class="relative w-96 mb-6 sm:mb-0">
+                              <div
+                                class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                                <div class="SitePreviewContainer">
+                                  <div class="SitePreviewCard">
+                                    <img
+                                      @click="year = 2020"
+                                      class="cursor-pointer"
+                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center">
+                                <div
+                                  class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                </div>
+                                <div
+                                  class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                                </div>
+                              </div>
+                              <div class="mt-3 sm:pe-8">
+                                <time
+                                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                                  >2020</time
+                                >
+                              </div>
+                            </li>
+                            <li class="relative w-96 mb-6 sm:mb-0">
+                              <div
+                                class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                                <div class="SitePreviewContainer">
+                                  <div class="SitePreviewCard">
+                                    <img
+                                      @click="year = 2021"
+                                      class="cursor-pointer"
+                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center">
+                                <div
+                                  class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                </div>
+                                <div
+                                  class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                                </div>
+                              </div>
+                              <div class="mt-3 sm:pe-8">
+                                <time
+                                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                                  >2021</time
+                                >
+                              </div>
+                            </li>
+                            <li class="relative w-96 mb-6 sm:mb-0">
+                              <div
+                                class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                                <div class="SitePreviewContainer">
+                                  <div class="SitePreviewCard">
+                                    <img
+                                      @click="year = 2022"
+                                      class="cursor-pointer"
+                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center">
+                                <div
+                                  class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                </div>
+                                <div
+                                  class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                                </div>
+                              </div>
+                              <div class="mt-3 sm:pe-8">
+                                <time
+                                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                                  >2022</time
+                                >
+                              </div>
+                            </li>
+                            <li class="relative w-96 mb-6 sm:mb-0">
+                              <div
+                                class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                                <div class="SitePreviewContainer">
+                                  <div class="SitePreviewCard">
+                                    <img
+                                      @click="year = 2023"
+                                      class="cursor-pointer"
+                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center">
+                                <div
+                                  class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                </div>
+                                <div
+                                  class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                                </div>
+                              </div>
+                              <div class="mt-3 sm:pe-8">
+                                <time
+                                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                                  >2023</time
+                                >
+                              </div>
+                            </li>
+                            <li class="relative w-96 mb-6 sm:mb-0">
+                              <div
+                                class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                                <div class="SitePreviewContainer">
+                                  <div class="SitePreviewCard">
+                                    <img
+                                      class="cursor-pointer"
+                                      @click="year = 2025"
+                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center">
+                                <div
+                                  class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                                </div>
+                                <div
+                                  class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                                </div>
+                              </div>
+                              <div class="mt-3 sm:pe-8">
+                                <time
+                                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                                  >2025</time
+                                >
+                              </div>
+                            </li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+  <script>
+    let containers = document.getElementsByClassName("SitePreviewContainer");
+    let cards = document.getElementsByClassName("SitePreviewCard");
+
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].addEventListener("mousemove", (e) => {
+        const rect = cards[i].getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const rotateX = (y / rect.height) * 40;
+        const rotateY = (x / rect.width) * 40;
+
+        cards[i].style.transform =
+          `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      containers[i].addEventListener("mouseleave", () => {
+        cards[i].style.transform = `rotateX(0deg) rotateY(0deg)`;
+      });
+    }
+  </script>
+</Layout>
+
+<style>
+  .SitePreviewContainer {
+    padding: 10px;
+    position: relative;
+    z-index: 10;
+    perspective: 1000px;
+  }
+
+  .SitePreviewCard {
+    width: 300px;
+    height: 169px;
+    position: relative;
+    background: linear-gradient(45deg, #5a585a27, #090947);
+    border-radius: 20px;
+    transform-style: preserve-3d;
+    transition: all 0.2s ease;
+  }
+
+  .SitePreviewCard:hover {
+    box-shadow: -0.65rem 0.65rem 0 #9999994f;
+    transform: translateY(-0.65rem) translateX(0.65rem);
+  }
+
+  .SitePreviewCard img:hover {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+  }
+
+  .SitePreviewCard img {
+    width: 300px;
+    height: 169px;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+
+  .SitePreviewCard::before {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    z-index: 2;
+    display: none;
+    content: "";
+    width: 50%;
+    height: 100%;
+    background: -webkit-linear-gradient(
+      left,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    -webkit-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+  }
+
+  .SitePreviewCard:hover::before {
+    display: block;
+    -webkit-animation: shine 0.75s;
+    animation: shine 0.75s;
+  }
+
+  #media screen and (min-width: 1440px) {
+    .SitePreviewCard img,
+    .SitePreviewCard {
+      width: 500px;
+      height: 500px;
+      border-radius: 15px;
+    }
+  }
+
+  @-webkit-keyframes shine {
+    0% {
+      left: -75%;
+    }
+    100% {
+      left: 125%;
+    }
+  }
+  @keyframes shine {
+    0% {
+      left: -75%;
+    }
+    100% {
+      left: 125%;
+    }
+  }
+
+  * {
+    scrollbar-width: thin !important;
+    scrollbar-color: transparent transparent !important;
+  }
+</style>

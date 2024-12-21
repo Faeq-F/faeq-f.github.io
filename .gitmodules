@@ -1,0 +1,15 @@
+[submodule "PersonalSite2020"]
+	path = PersonalSite2020
+	url = https://github.com/Faeq-F/PersonalSite2020.git
+[submodule "PersonalSite2021"]
+	path = PersonalSite2021
+	url = https://github.com/Faeq-F/PersonalSite2021.git
+[submodule "PersonalSite2022"]
+	path = PersonalSite2022
+	url = https://github.com/Faeq-F/PersonalSite2022.git
+[submodule "PersonalSite2023"]
+	path = PersonalSite2023
+	url = https://github.com/Faeq-F/PersonalSite2023.git
+[submodule "PersonalSite2025"]
+	path = PersonalSite2025
+	url = https://github.com/Faeq-F/PersonalSite2025.git
