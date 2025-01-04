@@ -93,7 +93,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2020"
                                       class="cursor-pointer"
-                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                      src="../../public/PersonalSite2020.png"
                                     />
                                   </div>
                                 </div>
@@ -121,7 +121,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2021"
                                       class="cursor-pointer"
-                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                      src="../../public/PersonalSite2021.png"
                                     />
                                   </div>
                                 </div>
@@ -149,7 +149,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2022"
                                       class="cursor-pointer"
-                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                      src="../../public/PersonalSite2022.png"
                                     />
                                   </div>
                                 </div>
@@ -177,7 +177,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2023"
                                       class="cursor-pointer"
-                                      src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                      src="../../public/PersonalSite2023.png"
                                     />
                                   </div>
                                 </div>
@@ -238,28 +238,6 @@ import Footer from "../components/Footer.astro";
       </template>
     </div>
   </div>
-  <script>
-    let containers = document.getElementsByClassName("SitePreviewContainer");
-    let cards = document.getElementsByClassName("SitePreviewCard");
-
-    for (let i = 0; i < containers.length; i++) {
-      containers[i].addEventListener("mousemove", (e) => {
-        const rect = cards[i].getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        const rotateX = (y / rect.height) * 40;
-        const rotateY = (x / rect.width) * 40;
-
-        cards[i].style.transform =
-          `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
-
-      containers[i].addEventListener("mouseleave", () => {
-        cards[i].style.transform = `rotateX(0deg) rotateY(0deg)`;
-      });
-    }
-  </script>
 </Layout>
 
 <style>
@@ -274,18 +252,20 @@ import Footer from "../components/Footer.astro";
     width: 300px;
     height: 169px;
     position: relative;
-    background: linear-gradient(45deg, #5a585a27, #090947);
+    background: white;
     border-radius: 20px;
     transform-style: preserve-3d;
     transition: all 0.2s ease;
   }
 
   .SitePreviewCard:hover {
-    box-shadow: -0.65rem 0.65rem 0 #9999994f;
-    transform: translateY(-0.65rem) translateX(0.65rem);
+    border: 1px solid #9999994f;
   }
 
-  .SitePreviewCard img:hover {
+   .SitePreviewCard:hover img,
+   .SitePreviewCard img:hover {
+    /* box-shadow: -0.65rem 0.65rem 0 #9999994f; */
+    transform: translateY(-0.65rem) translateX(0.65rem);
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
   }
@@ -297,6 +277,7 @@ import Footer from "../components/Footer.astro";
     transition: all 0.2s ease;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
+    border: 1px solid #9999994f;
   }
 
   .SitePreviewCard::before {
