@@ -93,7 +93,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2020"
                                       class="cursor-pointer"
-                                      src="../../public/PersonalSite2020.png"
+                                      src="/PersonalSite2020.png"
                                     />
                                   </div>
                                 </div>
@@ -121,7 +121,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2021"
                                       class="cursor-pointer"
-                                      src="../../public/PersonalSite2021.png"
+                                      src="/PersonalSite2021.png"
                                     />
                                   </div>
                                 </div>
@@ -149,7 +149,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2022"
                                       class="cursor-pointer"
-                                      src="../../public/PersonalSite2022.png"
+                                      src="/PersonalSite2022.png"
                                     />
                                   </div>
                                 </div>
@@ -177,7 +177,7 @@ import Footer from "../components/Footer.astro";
                                     <img
                                       @click="year = 2023"
                                       class="cursor-pointer"
-                                      src="../../public/PersonalSite2023.png"
+                                      src="/PersonalSite2023.png"
                                     />
                                   </div>
                                 </div>
@@ -201,10 +201,11 @@ import Footer from "../components/Footer.astro";
                               <div
                                 class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
                                 <div class="SitePreviewContainer">
-                                  <div class="SitePreviewCard">
+                                  <div
+                                    class="SitePreviewCard inProgress"
+                                    @click="year = 2025">
                                     <img
                                       class="cursor-pointer"
-                                      @click="year = 2025"
                                       src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                     />
                                   </div>
@@ -241,6 +242,24 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <style>
+  .inProgress {
+    cursor: pointer;
+  }
+  .inProgress img {
+    display: none;
+  }
+  .inProgress::before {
+    content: "In Development" !important;
+    position: absolute !important;
+    display: block !important;
+    animation: none !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: auto !important;
+    height: auto !important;
+  }
+
   .SitePreviewContainer {
     padding: 10px;
     position: relative;
@@ -262,8 +281,8 @@ import Footer from "../components/Footer.astro";
     border: 1px solid #9999994f;
   }
 
-   .SitePreviewCard:hover img,
-   .SitePreviewCard img:hover {
+  .SitePreviewCard:hover img,
+  .SitePreviewCard img:hover {
     /* box-shadow: -0.65rem 0.65rem 0 #9999994f; */
     transform: translateY(-0.65rem) translateX(0.65rem);
     -webkit-filter: grayscale(0);
