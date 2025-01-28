@@ -4,17 +4,51 @@ import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 ---
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script
+  is:inline
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+  type="text/javascript"
+></script>
+
+<script is:inline>
+  // import Alpine from "alpinejs";
+
+  window.addEventListener("load", (event) => {
+    let hi = document.querySelector(
+      "#2020IMG, #2021IMG, #2022IMG, #2023IMG, #2025IMG"
+    );
+    console.log(hi, event);
+    hi.forEach((elem) =>
+      elem.addEventListener("click", () => {
+        console.log(elem);
+        //loadPage(elem.slice(0, -3));
+      })
+    );
+  });
+
+  function loadPage(year) {
+    $.ajax({
+      url: "https://faeq-f.github.io/PersonalSite" + year,
+      success: function (result) {
+        $("#SiteFrame").html(result);
+      },
+    });
+  }
+</script>
 
 <Layout>
-  <div
-    x-data="{ year: '2023' }"
-    x-init="$watch('year', value => {if (value == '2022') $('#SiteFrame').contents().find('#codeContainer').remove();})">
-    <iframe
+  <!--Delete code container for 2022 so that the site represents a more accurate version for the time - need to make this change in the relevant repo-->
+  <div id="SiteFrame">
+    <!-- x-data="{ year: '2023' }"
+    x-init="$watch('year', value => {})" -->
+    <!-- if (value == '2022') $('#SiteFrame').contents().find('#codeContainer').remove(); -->
+    <!-- <iframe
       id="SiteFrame"
       x-bind:src="'https://faeq-f.github.io/PersonalSite' + year"
       class="min-h-screen max-h-screen w-screen min-w-screen max-w-screen"
-    ></iframe>
+    ></iframe> -->
+
+    <!-- <div id="SiteFrame"></div> -->
 
     <div
       x-data="{
@@ -91,7 +125,7 @@ import Footer from "../components/Footer.astro";
                                 <div class="SitePreviewContainer">
                                   <div class="SitePreviewCard">
                                     <img
-                                      @click="year = 2020"
+                                      id="2020IMG"
                                       class="cursor-pointer"
                                       src="/PersonalSite2020.png"
                                     />
@@ -119,7 +153,7 @@ import Footer from "../components/Footer.astro";
                                 <div class="SitePreviewContainer">
                                   <div class="SitePreviewCard">
                                     <img
-                                      @click="year = 2021"
+                                      id="2021IMG"
                                       class="cursor-pointer"
                                       src="/PersonalSite2021.png"
                                     />
@@ -147,7 +181,7 @@ import Footer from "../components/Footer.astro";
                                 <div class="SitePreviewContainer">
                                   <div class="SitePreviewCard">
                                     <img
-                                      @click="year = 2022"
+                                      id="2022IMG"
                                       class="cursor-pointer"
                                       src="/PersonalSite2022.png"
                                     />
@@ -175,7 +209,7 @@ import Footer from "../components/Footer.astro";
                                 <div class="SitePreviewContainer">
                                   <div class="SitePreviewCard">
                                     <img
-                                      @click="year = 2023"
+                                      id="2023IMG"
                                       class="cursor-pointer"
                                       src="/PersonalSite2023.png"
                                     />
@@ -203,7 +237,7 @@ import Footer from "../components/Footer.astro";
                                 <div class="SitePreviewContainer">
                                   <div
                                     class="SitePreviewCard inProgress"
-                                    @click="year = 2025">
+                                    id="2025IMG">
                                     <img
                                       class="cursor-pointer"
                                       src="https://images.unsplash.com/photo-1553880376-2dec478c8e3b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
