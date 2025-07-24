@@ -13,9 +13,7 @@ window.$ = $;
 export default {
   setup() {
 
-    const tour = useShepherd({
-      useModalOverlay: true
-    });
+    const tour = useShepherd({});
 
     onMounted(() => {
       window.addEventListener('load', (event) => {
@@ -47,7 +45,7 @@ export default {
         buttons: [
           {
             text: 'Got it!',
-            action: tour.complete,
+            action: tour.hide,
             secondary: true
           }
         ],
@@ -72,7 +70,7 @@ export default {
     let position = computed(() => {
       return showing.value
         ? "w-screen absolute bottom-0 right-0 transition-all duration-500"
-        : "w-screen absolute -bottom-[19rem] right-0 transition-all duration-500"
+        : "w-screen absolute -bottom-[20rem] right-0 transition-all duration-500"
     })
 
     let bg = computed(() => {
@@ -114,12 +112,12 @@ export default {
               Archive
             </button>
             <div
-              class="flex flex-col h-[24rem] py-5 bg-white border shadow-sm  rounded-lg m-4 my-0 overflow-y-hidden rounded-b-none rounded-tl-none">
+              class="flex flex-col h-[20rem] py-5 bg-white border shadow-sm  rounded-lg m-4 my-0 overflow-y-hidden rounded-b-none rounded-tl-none">
 
               <div class="relative flex-1 px-4 mt-1 sm:px-5">
                 <div class="absolute inset-0 px-4 sm:px-5">
                   <div
-                    class="relative p-4 h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md border-neutral-300">
+                    class="relative h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md border-neutral-300">
                     <ol class="sm:flex h-full p-4">
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
@@ -213,8 +211,7 @@ export default {
                             class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2023</time>
                         </div>
                       </li>
-                      <li class="relative min-w-96 mb-6 sm:mb-0"
-                        v-for="year in [2024, 2025, 56]">
+                      <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
                           class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
@@ -254,7 +251,7 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
-body:has(dialog.shepherd-element) #archiveButton {
+body:has(dialog.shepherd-element:not([hidden])) #archiveButton {
   opacity: 1;
 }
 
@@ -280,8 +277,16 @@ dialog.shepherd-element {
   transform: translateY(-1rem);
 }
 
+dialog.shepherd-element[hidden] {
+  animation: fadeTour .3s ease forwards !important;
+}
+
+[hidden]:where(:not([hidden="until-found"])) {
+  display: block !important;
+}
+
 .shepherd-arrow:before {
-  border: 1px solid #7a7c80;
+  border: 1px solid #7a7c8085;
   border-left-color: transparent;
   border-top-color: transparent;
   border-radius: 4px;
@@ -291,6 +296,16 @@ dialog.shepherd-element {
   border: 1px solid #7a7c80;
   border-radius: 0.75rem;
   padding: .5rem 1.5rem;
+}
+
+@keyframes fadeTour {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 </style>
 
