@@ -3,15 +3,14 @@ import { onMounted } from 'vue';
 import { computed, ref } from 'vue'
 import { useShepherd } from 'vue-shepherd'
 
-
-
 import jQuery from "jquery";
 const $ = jQuery;
 window.$ = $;
 
 
 export default {
-  setup() {
+  emits: ['change'],
+  setup(props, ctx) {
 
     const tour = useShepherd({});
 
@@ -19,25 +18,10 @@ export default {
       window.addEventListener('load', (event) => {
         let siteImages = $('#2020IMG, #2021IMG, #2022IMG, #2023IMG, #2025IMG')
         siteImages.each(function (index) {
-          $(this).on("click", () => { loadPage($(this)[0].id.slice(0, -3)) })
+          $(this).on("click", () => { ctx.emit('change', $(this)[0].id.slice(0, -3)) })
         }
         )
       })
-
-      function loadPage(year) {
-        console.log(year)
-        $.ajax({
-          url: 'https://faeq-f.github.io/PersonalSite' + year,
-          success: function (result) {
-            var head = result.match(/<head[^>]*>[\s\S]*<\/head>/gi);
-            var body = result.match(/<body[^>]*>[\s\S]*<\/body>/gi);
-            console.log(head)
-            console.log(body)
-            $('head').html(head)
-            $('#CurrentSite').html(body)
-          },
-        })
-      }
 
       tour.addStep({
         attachTo: { element: '#archiveButton', on: 'top' },
@@ -310,30 +294,8 @@ dialog.shepherd-element[hidden] {
 </style>
 
 <style scoped lang="scss">
-// .SitePreviewContainer {
-//   padding: 10px;
-//   position: relative;
-//   z-index: 10;
-//   perspective: 1000px;
-// }
-
-// .SitePreviewCard {
-//   width: 300px;
-//   height: 169px;
-//   position: relative;
-//   background: white;
-//   border-radius: 20px;
-//   transform-style: preserve-3d;
-//   transition: all 0.2s ease;
-// }
-
-// .SitePreviewCard:hover {
-//   border: 1px solid #9999994f;
-// }
-
 .SitePreviewCard:hover img,
 .SitePreviewCard img:hover {
-  // transform: translateY(-0.65rem) translateX(0.65rem);
   -webkit-filter: grayscale(0);
   filter: grayscale(0);
 }
@@ -347,50 +309,6 @@ dialog.shepherd-element[hidden] {
   filter: grayscale(100%);
   border: 1px solid #9999994f;
 }
-
-// .SitePreviewCard::before {
-//   position: absolute;
-//   top: 0;
-//   left: -75%;
-//   z-index: 2;
-//   display: none;
-//   content: '';
-//   width: 50%;
-//   height: 100%;
-//   background: -webkit-linear-gradient(left,
-//       rgba(255, 255, 255, 0) 0%,
-//       rgba(255, 255, 255, 0.3) 100%);
-//   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
-//   -webkit-transform: skewX(-25deg);
-//   transform: skewX(-25deg);
-// }
-
-// .SitePreviewCard:hover::before {
-//   display: block;
-//   -webkit-animation: shine 0.75s;
-//   animation: shine 0.75s;
-// }
-
-
-// @-webkit-keyframes shine {
-//   0% {
-//     left: -75%;
-//   }
-
-//   100% {
-//     left: 125%;
-//   }
-// }
-
-// @keyframes shine {
-//   0% {
-//     left: -75%;
-//   }
-
-//   100% {
-//     left: 125%;
-//   }
-// }
 
 .SitePreviewCard img {
   width: fit-content;
