@@ -24,4 +24,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  define: {
+    'process.env.ES_BUILD': process.env.ES_BUILD,
+  },
 })

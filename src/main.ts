@@ -1,4 +1,5 @@
 import './assets/main.css'
+import 'shepherd.js/dist/css/shepherd.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
