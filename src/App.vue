@@ -4,9 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="slide" mode="out-in">
-      <component :is="Component" class="z-[999]" />
-    </transition>
+    <component :is="Component" />
   </router-view>
 </template>
 
@@ -90,21 +88,6 @@ import { RouterView } from 'vue-router'
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
-}
-
-//=-------------------------------------------------------------------
-
-.slide-enter-active,
-.slide-leave-active {
-  transition:
-    opacity 1s,
-    transform 1s;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateX(-30%);
 }
 
 html,
