@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { computed, ref } from 'vue'
 import { useShepherd } from 'vue-shepherd'
+import { sleep } from '@/stores/store'
 
 import jQuery from "jquery";
 const $ = jQuery;
@@ -13,6 +14,12 @@ export default {
   setup(props, ctx) {
 
     const tour = useShepherd({});
+
+    async function endTour() {
+      tour.hide();
+      await sleep(300)
+      tour.complete();
+    }
 
     onMounted(() => {
       window.addEventListener('load', (event) => {
@@ -29,7 +36,7 @@ export default {
         buttons: [
           {
             text: 'Got it!',
-            action: tour.hide,
+            action: endTour,
             secondary: true
           }
         ],
