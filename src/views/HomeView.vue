@@ -24,6 +24,10 @@ function applyThemeToFrame() {
   )) {
     if (!a.href.includes("PersonalSite")) {
       a.target = "_blank";
+    } else {
+      a.addEventListener("click", () => {
+        applyThemeToFrame()
+      });
     }
   }
 }
@@ -34,7 +38,7 @@ function applyThemeToFrame() {
   <div id="CurrentSite" class="h-screen w-screen p-0 m-0 absolute left-0 top-0">
     <Transition>
       <iframe class="w-screen h-screen" style="pointer-events: all;" ref="frame"
-        :src="frameSrc" />
+        :src="frameSrc" @load="applyThemeToFrame" />
     </Transition>
   </div>
 
