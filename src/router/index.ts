@@ -46,6 +46,31 @@ const router = createRouter({
       component: site2025View,
     },
   ],
+  scrollBehavior: function (to, from, savedPosition) {
+    if (to.hash) {
+      tryScrollToAnchor(to.hash, 1000, 100);
+    } else if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 })
 
 export default router
+
+function wait(duration) {
+  return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+async function tryScrollToAnchor(hash, timeout = 1000, delay = 100) {
+  while (timeout > 0) {
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      break;
+    }
+    await wait(delay);
+    timeout = timeout - delay;
+  }
+}

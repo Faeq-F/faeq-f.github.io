@@ -7,12 +7,16 @@
   <div class="overflow-y-scroll h-screen">
     This page emulates actions of the 2022 site
     <div>
-      <a href="http://localhost:5173/PersonalSite2022#anchor">link to
-        an
-        anchor</a>
-      <div>
-        <a href="https://github.com/faeq-f">link to an external site</a>
-      </div>
+      Theme <input id="themeSwitch" class="switch__input" type="checkbox"
+        role="switch" />
+    </div>
+    <div>
+      <router-link :to="{ path: '/PersonalSite2022', hash: '#anchor' }">
+        link to an anchor
+      </router-link>
+      <a href="https://github.com/faeq-f">
+        link to an external site
+      </a>
     </div>
     <p v-for="i in [...Array(100).keys()]">Content{{ i }}</p>
     <div id="anchor">An anchor</div>
@@ -29,5 +33,10 @@ a {
 
 div {
   margin: 20px;
+}
+</style>
+<style>
+body:has(.switch__input:checked) {
+  filter: invert(1);
 }
 </style>
