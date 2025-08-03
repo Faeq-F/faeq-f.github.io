@@ -38,5 +38,6 @@ div {
 <style>
 body:has(.switch__input:checked) {
   filter: invert(1);
+  background: #000;
 }
 </style>

@@ -11,6 +11,7 @@ window.$ = $;
 
 export default {
   emits: ['change'],
+  props: ['darkTheme'],
   setup(props, ctx) {
 
     const tour = useShepherd({});
@@ -52,10 +53,23 @@ export default {
       showing.value = !showing.value
     }
 
+    let bg = computed(() => {
+      return props.darkTheme ? ' bg-black' : ' bg-white'
+    })
+
+    let color = computed(() => {
+      return props.darkTheme ? ' text-[#e5e7eb]' : ''
+    })
+
+    let border = computed(() => {
+      return props.darkTheme ? ' border-[#90a1b9]' : ''
+    })
+
     let chevron = computed(() => {
-      return showing.value
-        ? "w-5 h-5 text-gray-400/70 rotate-90 inline transition-all transform delay-[50ms]"
-        : "-rotate-90 inline transition-all transform w-5 h-5 text-gray-400/70 delay-1000"
+      let color = props.darkTheme ? ' text-[#90a1b9]' : ' text-gray-400/70'
+      return (showing.value
+        ? "w-5 h-5 rotate-90 inline transition-all transform delay-[50ms]"
+        : "-rotate-90 inline transition-all transform w-5 h-5 delay-1000") + color
     })
 
     let position = computed(() => {
@@ -64,15 +78,11 @@ export default {
         : "w-screen absolute -bottom-[20rem] right-0 transition-all duration-500"
     })
 
-    let bg = computed(() => {
-      return showing.value
-        ? "h-screen w-screen absolute top-0 left-0 bg-black bg-opacity-50 transition-all duration-500"
-        : "h-screen w-screen absolute top-0 left-0 bg-transparent transition-all duration-500"
-    })
-
     return {
       showing,
       bg,
+      color,
+      border,
       position,
       chevron,
       toggle,
@@ -88,8 +98,8 @@ export default {
         <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
           <div :class="position" style="pointer-events: all !important;">
             <button @click="toggle"
-              class="bg-white border rounded-lg shadow-sm p-1 pr-3 relative ml-4 rounded-b-none font-normal border-b-0 text-sm transition-all duration-700 delay-300"
-              :class="showing ? '' : 'hover:opacity-100 opacity-0'"
+              class="border rounded-lg shadow-sm p-1 pr-3 relative ml-4 rounded-b-none font-normal border-b-0 text-sm transition-all duration-700 delay-300"
+              :class="(showing ? '' : 'hover:opacity-100 opacity-0') + bg + color + border"
               id="archiveButton">
 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -112,7 +122,7 @@ export default {
                     <ol class="sm:flex h-full p-4">
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
-                          class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                          class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2020IMG" class="cursor-pointer"
@@ -122,20 +132,19 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white">
                           </div>
-                          <div
-                            class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2020</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2020</time>
                         </div>
                       </li>
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
-                          class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                          class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2021IMG" class="cursor-pointer"
@@ -145,20 +154,19 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
                           </div>
-                          <div
-                            class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2021</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2021</time>
                         </div>
                       </li>
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
-                          class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                          class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2022IMG" class="cursor-pointer"
@@ -168,20 +176,19 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
                           </div>
-                          <div
-                            class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2022</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2022</time>
                         </div>
                       </li>
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
-                          class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                          class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2023IMG" class="cursor-pointer"
@@ -191,20 +198,19 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
                           </div>
-                          <div
-                            class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2023</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2023</time>
                         </div>
                       </li>
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
-                          class="text-base font-normal text-gray-500 dark:text-gray-400 h-[11rem] mb-5">
+                          class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard inProgress"
                               id="2025IMG">
@@ -215,15 +221,14 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
                           </div>
-                          <div
-                            class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">2025</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2025</time>
                         </div>
                       </li>
                     </ol>
