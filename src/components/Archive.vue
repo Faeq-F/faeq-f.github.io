@@ -73,9 +73,11 @@ export default {
     })
 
     let position = computed(() => {
-      return showing.value
+      let darkThemeGlobal = props.darkTheme ? ' ArchiveDarkTheme' : ''
+      return (showing.value
         ? "w-screen absolute bottom-0 right-0 transition-all duration-500"
-        : "w-screen absolute -bottom-[20rem] right-0 transition-all duration-500"
+        : "w-screen absolute -bottom-[20rem] right-0 transition-all duration-500")
+        + darkThemeGlobal
     })
 
     return {
@@ -98,7 +100,7 @@ export default {
         <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
           <div :class="position" style="pointer-events: all !important;">
             <button @click="toggle"
-              class="border rounded-lg shadow-sm p-1 pr-3 relative ml-4 rounded-b-none font-normal border-b-0 text-sm transition-all duration-700 delay-300"
+              class="border rounded-lg shadow-sm p-1 pr-3 relative ml-4 rounded-b-none font-normal border-b-0 text-sm "
               :class="(showing ? '' : 'hover:opacity-100 opacity-0') + bg + color + border"
               id="archiveButton">
 
@@ -112,13 +114,13 @@ export default {
               </svg>
               Archive
             </button>
-            <div
-              class="flex flex-col h-[20rem] py-5 bg-white border shadow-sm  rounded-lg m-4 my-0 overflow-y-hidden rounded-b-none rounded-tl-none">
+            <div id="archivePanel"
+              class="flex flex-col h-[20rem] py-5 border shadow-sm  rounded-lg m-4 my-0 overflow-y-hidden rounded-b-none rounded-tl-none">
 
               <div class="relative flex-1 px-4 mt-1 sm:px-5">
                 <div class="absolute inset-0 px-4 sm:px-5">
-                  <div
-                    class="relative h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md border-neutral-300">
+                  <div id="archiveListDiv"
+                    class="relative h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md">
                     <ol class="sm:flex h-full p-4">
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
@@ -132,9 +134,9 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white">
+                            class="absolute w-3 h-3  rounded-full -start-1.5 border archivePoint">
                           </div>
-                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5">
+                          <div class="hidden sm:flex w-full archiveLine h-0.5">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
@@ -154,9 +156,9 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
+                            class="absolute w-3 h-3  rounded-full -start-1.5 border archivePoint">
                           </div>
-                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
+                          <div class="hidden sm:flex w-full archiveLine h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
@@ -176,9 +178,9 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
+                            class="absolute w-3 h-3  rounded-full -start-1.5 border archivePoint">
                           </div>
-                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
+                          <div class="hidden sm:flex w-full archiveLine h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
@@ -198,9 +200,9 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
+                            class="absolute w-3 h-3 rounded-full -start-1.5 border archivePoint">
                           </div>
-                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
+                          <div class="hidden sm:flex w-full archiveLine h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
@@ -221,9 +223,9 @@ export default {
                         </div>
                         <div class="flex items-center">
                           <div
-                            class="absolute w-3 h-3 bg-gray-200 rounded-full -start-1.5 border border-white ">
+                            class="absolute w-3 h-3 rounded-full -start-1.5 border archivePoint ">
                           </div>
-                          <div class="hidden sm:flex w-full bg-gray-200 h-0.5 ">
+                          <div class="hidden sm:flex w-full archiveLine h-0.5 ">
                           </div>
                         </div>
                         <div class="mt-3 sm:pe-8">
@@ -246,6 +248,12 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+* {
+  transition: 300ms all ease-in-out;
+  scrollbar-width: thin !important;
+  scrollbar-color: gray transparent !important;
+}
 
 body:has(dialog.shepherd-element:not([hidden])) #archiveButton {
   opacity: 1;
@@ -292,6 +300,74 @@ dialog.shepherd-element[hidden] {
   border: 1px solid #7a7c80;
   border-radius: 0.75rem;
   padding: .5rem 1.5rem;
+}
+
+.archiveLine {
+  background-color: #e5e7eb;
+}
+
+.archivePoint {
+  background-color: #e5e7eb;
+  border-color: #fff;
+}
+
+#archivePanel {
+  background: #fff;
+}
+
+#archiveListDiv {
+  border-color: #d4d4d4;
+}
+
+.ArchiveDarkTheme #archivePanel {
+  border: 1px solid #90a1b9;
+  border-bottom: 0;
+  background-color: #000;
+}
+
+.ArchiveDarkTheme #archiveListDiv {
+  border-color: #90a1b9;
+}
+
+.ArchiveDarkTheme .archiveLine {
+  background-color: #90a1b9;
+}
+
+.ArchiveDarkTheme .archivePoint {
+  background-color: #90a1b9;
+  border-color: #000;
+}
+
+.shepherd-element {
+  border: 1px solid #d4d4d4;
+  box-shadow: none;
+}
+
+body:has(div.ArchiveDarkTheme) .shepherd-element {
+  border: 1px solid #90a1b9;
+  background-color: #000;
+}
+
+body:has(div.ArchiveDarkTheme) .shepherd-text {
+  color: #90a1b9;
+}
+
+body:has(div.ArchiveDarkTheme) .shepherd-arrow:before {
+  border-color: #90a1b9;
+  background-color: #000;
+  border-left-color: transparent;
+  border-top-color: transparent;
+}
+
+body:has(div.ArchiveDarkTheme) .shepherd-button {
+  border: 1px solid #7a7c80;
+  background-color: #161616;
+  color: #90a1b9;
+}
+
+body:has(div.ArchiveDarkTheme) .shepherd-button:hover {
+  background-color: #202020 !important;
+  color: #90a1b9 !important;
 }
 
 @keyframes fadeTour {
@@ -352,7 +428,7 @@ dialog.shepherd-element[hidden] {
   }
 }
 
-.dark .SitePreviewCard {
+.ArchiveDarkTheme .SitePreviewCard img {
   background-color: #0f172b;
   border: 1px solid oklch(44.6% 0.03 256.802);
   box-shadow: 0 2px 0 1px oklch(44.6% 0.03 256.802);
@@ -362,8 +438,11 @@ dialog.shepherd-element[hidden] {
   }
 }
 
-* {
-  scrollbar-width: thin !important;
-  scrollbar-color: gray transparent !important;
+.ArchiveDarkTheme .SitePreviewCard.inProgress img {
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 </style>
