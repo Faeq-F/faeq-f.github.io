@@ -47,7 +47,11 @@ function addThemeEventListener(year: string) {
 
 function setArchiveTheme(year: string) {
   if (year === '2020' || year === '2021') darkTheme.value = false
-  else if (year === '2022' || year === '2023') setArchiveTheme20222023()
+  else if (year === '2022' || year === '2023') setPageTheme20222023()
+}
+
+function setPageTheme20222023() {
+  frame.value.contentDocument.body.getElementsByClassName('switch__input')[0].checked = darkTheme.value;
 }
 
 function setArchiveTheme20222023() {

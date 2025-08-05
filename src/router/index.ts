@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import site2020View from '../views/2020site.vue'
 import site2021View from '../views/2021site.vue'
-import site2022View from '../views/2022site.vue'
-import site2023View from '../views/2023site.vue'
+import site2022and2023View from '../views/2022and2023site.vue'
 import site2025View from '../views/2025site.vue'
 import sub from '../views/sub.vue'
 
@@ -33,12 +32,12 @@ const router = createRouter({
     {
       path: '/PersonalSite2022',
       name: '2022site',
-      component: site2022View,
+      component: site2022and2023View,
     },
     {
       path: '/PersonalSite2023',
       name: '2023site',
-      component: site2023View,
+      component: site2022and2023View,
     },
     {
       path: '/PersonalSite2025',

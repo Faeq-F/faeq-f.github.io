@@ -12,7 +12,7 @@ window.$ = $;
 export default {
   emits: ['change'],
   props: ['darkTheme'],
-  setup(props, ctx) {
+  setup(props, _ctx) {
 
     const tour = useShepherd({});
 
@@ -23,14 +23,6 @@ export default {
     }
 
     onMounted(() => {
-      window.addEventListener('load', (event) => {
-        let siteImages = $('#2020IMG, #2021IMG, #2022IMG, #2023IMG, #2025IMG')
-        siteImages.each(function (index) {
-          $(this).on("click", () => { ctx.emit('change', $(this)[0].id.slice(0, -3)) })
-        }
-        )
-      })
-
       tour.addStep({
         attachTo: { element: '#archiveButton', on: 'top' },
         text: 'Hover here to view the Archive;<br />🗃️ previous versions of this site!',
@@ -88,6 +80,7 @@ export default {
       position,
       chevron,
       toggle,
+      props
     };
   }
 };
@@ -128,7 +121,8 @@ export default {
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2020IMG" class="cursor-pointer"
-                                src="/PersonalSite2020.png" />
+                                src="/PersonalSite2020.png"
+                                @click="$emit('change', '2020')" />
                             </div>
                           </div>
                         </div>
@@ -150,7 +144,8 @@ export default {
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2021IMG" class="cursor-pointer"
-                                src="/PersonalSite2021.png" />
+                                src="/PersonalSite2021.png"
+                                @click="$emit('change', '2021')" />
                             </div>
                           </div>
                         </div>
@@ -172,7 +167,12 @@ export default {
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2022IMG" class="cursor-pointer"
-                                src="/PersonalSite2022.png" />
+                                src="/PersonalSite2022dark.png"
+                                v-if="props.darkTheme"
+                                @click="$emit('change', '2022')" />
+                              <img id="2022IMG" class="cursor-pointer"
+                                src="/PersonalSite2022.png" v-else
+                                @click="$emit('change', '2022')" />
                             </div>
                           </div>
                         </div>
@@ -194,7 +194,12 @@ export default {
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard">
                               <img id="2023IMG" class="cursor-pointer"
-                                src="/PersonalSite2023.png" />
+                                src="/PersonalSite2023dark.png"
+                                v-if="props.darkTheme"
+                                @click="$emit('change', '2023')" />
+                              <img id="2023IMG" class="cursor-pointer"
+                                src="/PersonalSite2023.png" v-else
+                                @click="$emit('change', '2023')" />
                             </div>
                           </div>
                         </div>
@@ -216,8 +221,8 @@ export default {
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard inProgress"
                               id="2025IMG">
-                              <img class="cursor-pointer"
-                                src="/inProgress.png" />
+                              <img class="cursor-pointer" src="/inProgress.png"
+                                @click="$emit('change', '2025')" />
                             </div>
                           </div>
                         </div>
@@ -253,6 +258,10 @@ export default {
   transition: 300ms all ease-in-out;
   scrollbar-width: thin !important;
   scrollbar-color: gray transparent !important;
+}
+
+body:has(div.ArchiveDarkTheme) {
+  background-color: #000;
 }
 
 body:has(dialog.shepherd-element:not([hidden])) #archiveButton {
@@ -439,10 +448,12 @@ body:has(div.ArchiveDarkTheme) .shepherd-button:hover {
 }
 
 .ArchiveDarkTheme .SitePreviewCard.inProgress img {
-  opacity: 0.9;
+  opacity: 0.8;
+  filter: grayscale(100%) invert(100%);
 
   &:hover {
-    opacity: 1;
+    opacity: 2;
+    filter: grayscale(0%) invert(100%);
   }
 }
 </style>

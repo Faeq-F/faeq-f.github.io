@@ -1,17 +1,23 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 /// This view is used only for debug purposes
 
 </script>
 <template>
   <div class="overflow-y-scroll h-screen">
-    This page emulates actions of the 2022 site
+    This page emulates actions of the
+    {{ router.currentRoute.value.path.includes('2023') ? '2023' : '2022' }}
+    site
     <div>
       Theme <input id="themeSwitch" class="switch__input" type="checkbox"
         role="switch" />
     </div>
     <div>
-      <router-link :to="{ path: '/PersonalSite2022', hash: '#anchor' }">
+      <router-link
+        :to="{ path: router.currentRoute.value.path, hash: '#anchor' }">
         link to an anchor
       </router-link>
       <a href="https://github.com/faeq-f">
