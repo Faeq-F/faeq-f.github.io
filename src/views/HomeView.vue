@@ -63,7 +63,14 @@ function setArchiveTheme20222023() {
 }
 
 onMounted(() => {
-  console.log(frame.value)
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    darkTheme.value = true;
+  }
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    if (event.matches) darkTheme.value = true;
+    else darkTheme.value = false;
+    if (year.value === '2022' || year.value === '2023') setPageTheme20222023()
+  });
 });
 
 </script>
