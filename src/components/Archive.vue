@@ -40,9 +40,19 @@ export default {
       tour.start();
     })
 
-    let showing = ref(false)
+    const showing = ref(false)
+    const fullyHidden = ref(true)
+
     function toggle() {
       showing.value = !showing.value
+      if (showing.value) {
+        fullyHidden.value = false
+      }
+      else {
+        setTimeout(() => {
+          fullyHidden.value = true
+        }, 500) // Corresponds to duration-500
+      }
     }
 
     let bg = computed(() => {
@@ -66,10 +76,11 @@ export default {
 
     let position = computed(() => {
       let darkThemeGlobal = props.darkTheme ? ' ArchiveDarkTheme' : ''
-      return (showing.value
-        ? "w-screen absolute bottom-0 right-0 transition-all duration-500"
-        : "w-screen absolute -bottom-[20rem] right-0 transition-all duration-500")
-        + darkThemeGlobal
+      const baseClasses = "absolute transition-all duration-500"
+      if (showing.value) {
+        return `w-screen bottom-0 right-0 ${baseClasses} ${darkThemeGlobal}`
+      }
+      return `${fullyHidden.value ? 'w-fit' : 'w-screen'} -bottom-[20rem] left-[-98vw] ${baseClasses} ${darkThemeGlobal}`
     })
 
     return {
