@@ -14,7 +14,7 @@
     <RouterLink to="/PersonalSite2021">link back to 2021</RouterLink>
   </div>
   <div>
-    <RouterLink to="/PersonalSite2025">link back to 2025</RouterLink>
+    <RouterLink to="/PersonalSite2026">link back to 2026</RouterLink>
   </div>
 </template>
 

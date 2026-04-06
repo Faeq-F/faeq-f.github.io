@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import site2020View from '../views/2020site.vue'
 import site2021View from '../views/2021site.vue'
 import site2022and2023View from '../views/2022and2023site.vue'
-import site2025View from '../views/2025site.vue'
+import site2026View from '../views/2026site.vue'
 import sub from '../views/sub.vue'
 
 const router = createRouter({
@@ -40,9 +40,9 @@ const router = createRouter({
       component: site2022and2023View,
     },
     {
-      path: '/PersonalSite2025',
-      name: '2025site',
-      component: site2025View,
+      path: '/PersonalSite2026',
+      name: '2026site',
+      component: site2026View,
     },
   ],
   scrollBehavior: function (to, from, savedPosition) {

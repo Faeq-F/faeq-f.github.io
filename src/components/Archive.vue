@@ -43,6 +43,17 @@ export default {
     const showing = ref(false)
     const fullyHidden = ref(true)
 
+    // Horizontal scroll dragging state
+    const scrollContainer = ref(null)
+    const isDragging = ref(false)
+    const startX = ref(0)
+    const scrollLeftStart = ref(0)
+    const canScrollLeft = ref(false)
+    const canScrollRight = ref(true)
+    let velocity = 0
+    let lastX = 0
+    let lastTime = 0
+
     function toggle() {
       showing.value = !showing.value
       if (showing.value) {
@@ -53,6 +64,73 @@ export default {
           fullyHidden.value = true
         }, 500) // Corresponds to duration-500
       }
+    }
+
+    // Check scroll position to show/hide arrows
+    function updateScrollButtons() {
+      if (!scrollContainer.value) return
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.value
+      canScrollLeft.value = scrollLeft > 0
+      canScrollRight.value = scrollLeft < scrollWidth - clientWidth - 1
+    }
+
+    // Drag handlers
+    function onMouseDown(e) {
+      if (!scrollContainer.value) return
+      isDragging.value = true
+      startX.value = e.pageX - scrollContainer.value.offsetLeft
+      scrollLeftStart.value = scrollContainer.value.scrollLeft
+      lastX = e.pageX
+      lastTime = Date.now()
+      velocity = 0
+      window.addEventListener('mouseup', onMouseUp)
+      window.addEventListener('mousemove', onMouseMove)
+    }
+
+    function onMouseMove(e) {
+      if (!isDragging.value || !scrollContainer.value) return
+      e.preventDefault()
+      const x = e.pageX - scrollContainer.value.offsetLeft
+      const walk = (x - startX.value) * 1.5 // scroll speed multiplier
+      scrollContainer.value.scrollLeft = scrollLeftStart.value - walk
+      updateScrollButtons()
+
+      // Calculate velocity for momentum
+      const now = Date.now()
+      const dt = now - lastTime
+      if (dt > 0) {
+        velocity = (e.pageX - lastX) / dt
+      }
+      lastX = e.pageX
+      lastTime = now
+    }
+
+    function onMouseUp() {
+      isDragging.value = false
+      window.removeEventListener('mouseup', onMouseUp)
+      window.removeEventListener('mousemove', onMouseMove)
+
+      // Apply momentum scrolling
+      if (scrollContainer.value && Math.abs(velocity) > 0.1) {
+        const momentum = velocity * 200 // momentum multiplier
+        scrollContainer.value.scrollTo({
+          left: scrollContainer.value.scrollLeft - momentum,
+          behavior: 'smooth'
+        })
+      }
+    }
+
+    // Navigation buttons
+    function scrollLeft() {
+      if (!scrollContainer.value) return
+      scrollContainer.value.scrollBy({ left: -384, behavior: 'smooth' })
+      setTimeout(updateScrollButtons, 300)
+    }
+
+    function scrollRight() {
+      if (!scrollContainer.value) return
+      scrollContainer.value.scrollBy({ left: 384, behavior: 'smooth' })
+      setTimeout(updateScrollButtons, 300)
     }
 
     let bg = computed(() => {
@@ -83,6 +161,11 @@ export default {
       return `${fullyHidden.value ? 'w-fit' : 'w-screen'} -bottom-[20rem] left-[-98vw] ${baseClasses} ${darkThemeGlobal}`
     })
 
+    // Initialize scroll button state on mount
+    onMounted(() => {
+      updateScrollButtons()
+    })
+
     return {
       showing,
       bg,
@@ -91,7 +174,15 @@ export default {
       position,
       chevron,
       toggle,
-      props
+      props,
+      scrollContainer,
+      isDragging,
+      onMouseDown,
+      scrollLeft,
+      scrollRight,
+      canScrollLeft,
+      canScrollRight,
+      updateScrollButtons
     };
   }
 };
@@ -123,8 +214,36 @@ export default {
 
               <div class="relative flex-1 px-4 mt-1 sm:px-5">
                 <div class="absolute inset-0 px-4 sm:px-5">
-                  <div id="archiveListDiv"
-                    class="relative h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md">
+                  <!-- Left Arrow -->
+                  <button @click="scrollLeft"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300"
+                    :class="[props.darkTheme ? 'bg-gray-800 text-white hover:bg-gray-700 border-[#90a1b9]' : 'bg-white text-gray-800 hover:bg-gray-100 border-gray-300', canScrollLeft ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none']"
+                    style="pointer-events: all;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  <!-- Right Arrow -->
+                  <button @click="scrollRight"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-300"
+                    :class="[props.darkTheme ? 'bg-gray-800 text-white hover:bg-gray-700 border-[#90a1b9]' : 'bg-white text-gray-800 hover:bg-gray-100 border-gray-300', canScrollRight ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none']"
+                    style="pointer-events: all;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+
+                  <div id="archiveListDiv" ref="scrollContainer"
+                    @mousedown="onMouseDown" @scroll="updateScrollButtons"
+                    class="relative h-full sm:overflow-y-hidden overflow-y-scroll overflow-x-hidden sm:overflow-x-scroll border border-dashed rounded-md cursor-grab select-none no-scrollbar"
+                    :class="{ 'cursor-grabbing': isDragging }">
                     <ol class="sm:flex h-full p-4">
                       <li class="relative min-w-96 mb-6 sm:mb-0">
                         <div
@@ -231,9 +350,9 @@ export default {
                           class="text-base font-normal text-gray-500  h-[11rem] mb-5">
                           <div class="SitePreviewContainer">
                             <div class="SitePreviewCard inProgress"
-                              id="2025IMG">
+                              id="2026IMG">
                               <img class="cursor-pointer" src="/inProgress.png"
-                                @click="$emit('change', '2025')" />
+                                @click="$emit('change', '2026')" />
                             </div>
                           </div>
                         </div>
@@ -246,7 +365,7 @@ export default {
                         </div>
                         <div class="mt-3 sm:pe-8">
                           <time
-                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2025</time>
+                            class="block mb-2 text-sm font-normal leading-none text-gray-400 ">2026</time>
                         </div>
                       </li>
                     </ol>
@@ -269,6 +388,50 @@ export default {
   transition: 300ms all ease-in-out;
   scrollbar-width: thin !important;
   scrollbar-color: gray transparent !important;
+}
+
+/* Hide scrollbar for archive list while keeping functionality */
+#archiveListDiv::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+#archiveListDiv {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Utility class to hide scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Prevent text selection during drag */
+#archiveListDiv,
+#archiveListDiv * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Prevent native image dragging */
+#archiveListDiv img {
+  -webkit-user-drag: none !important;
+  -khtml-user-drag: none !important;
+  -moz-user-drag: none !important;
+  -o-user-drag: none !important;
+  user-drag: none !important;
+  pointer-events: auto !important;
 }
 
 body:has(div.ArchiveDarkTheme) {

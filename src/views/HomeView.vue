@@ -3,12 +3,12 @@ import Archive from '@/components/Archive.vue';
 import { sleep } from '@/stores/store';
 import { onMounted, ref } from 'vue';
 
-const year = ref('2025');
+const year = ref('2026');
 const darkTheme = ref(false);
 
 const frame = ref()
 const baseURL = location.origin
-const frameSrc = ref(baseURL + '/PersonalSite2025')
+const frameSrc = ref(baseURL + '/PersonalSite2026')
 
 // before iframe load event
 const yearChange = async (toYear: string) => {
@@ -18,6 +18,13 @@ const yearChange = async (toYear: string) => {
   frameSrc.value = baseURL + '/PersonalSite' + toYear
   await sleep(300)
   frame.value.style.opacity = 1
+}
+
+// Initial theme
+function setArchiveTheme(year: string) {
+  if (year === '2020' || year === '2021') darkTheme.value = false
+  else if (year === '2022' || year === '2023') setPageTheme20222023()
+  else if (year === '2026') setPageTheme2026()
 }
 
 // on iframe load event
@@ -43,22 +50,40 @@ function addThemeEventListener(year: string) {
     frame.value.contentDocument.body.getElementsByClassName('switch__input')[0].addEventListener('click',
       () => setArchiveTheme20222023()
     );
+  else if (year === '2026') {
+    const htmlElement = frame.value.contentDocument.documentElement;
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          setArchiveTheme2026();
+        }
+      });
+    });
+    observer.observe(htmlElement, { attributes: true, attributeFilter: ['class'] });
+  }
 }
 
-function setArchiveTheme(year: string) {
-  if (year === '2020' || year === '2021') darkTheme.value = false
-  else if (year === '2022' || year === '2023') setPageTheme20222023()
-}
-
+// set iframe page theme
 function setPageTheme20222023() {
   frame.value.contentDocument.body.getElementsByClassName('switch__input')[0].checked = darkTheme.value;
 }
 
+// set iframe page theme
+function setPageTheme2026() {
+  darkTheme.value ?
+    frame.value.contentDocument.documentElement.classList.add('dark') :
+    frame.value.contentDocument.documentElement.classList.remove('dark');
+}
+
+// set archive theme
 function setArchiveTheme20222023() {
-  if (frame.value.contentDocument.body.getElementsByClassName('switch__input')[0].checked) {
-    darkTheme.value = true;
-  } else {
-    darkTheme.value = false;
+  darkTheme.value = frame.value.contentDocument.body.getElementsByClassName('switch__input')[0].checked
+}
+// set archive theme
+function setArchiveTheme2026() {
+  // check if 2026 site has dark class on html
+  if (frame.value?.contentDocument?.documentElement) {
+    darkTheme.value = frame.value.contentDocument.documentElement.classList.contains('dark');
   }
 }
 
@@ -70,6 +95,7 @@ onMounted(() => {
     if (event.matches) darkTheme.value = true;
     else darkTheme.value = false;
     if (year.value === '2022' || year.value === '2023') setPageTheme20222023()
+    else if (year.value === '2026') setPageTheme2026()
   });
 });
 
